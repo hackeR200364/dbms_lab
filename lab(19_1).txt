@@ -1,0 +1,195 @@
+SQL> CREATE TABLE soumo (id number, name varchar2(20), branch varchar2(10));
+
+Table created.
+
+
+
+SQL> INSERT INTO SOUMO VALUES(&ID, '&NAME', '&BRANCH');
+Enter value for id: 1
+Enter value for name: Rupam
+Enter value for branch: CSE
+old   1: INSERT INTO SOUMO VALUES(&ID, '&NAME', '&BRANCH')
+new   1: INSERT INTO SOUMO VALUES(1, 'Rupam', 'CSE')
+
+1 row created.
+
+
+
+
+SQL> select * from soumo;
+
+        ID NAME                 BRANCH
+---------- -------------------- ----------
+         1 Rupam                CSE
+         2 SOUMO                CSE
+         3 Krish                CSE
+         4 Souvik               CSE
+         5 Shreya               IT
+
+
+
+
+
+SQL> alter table soumo rename column id to roll;
+
+Table altered.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH
+---------- -------------------- ----------
+         1 Rupam                CSE
+         2 SOUMO                CSE
+         3 Krish                CSE
+         4 Souvik               CSE
+         5 Shreya               IT
+
+
+
+SQL> alter table soumo add( address varchar2(30) default 'Kolkata', age integer default 22);
+
+Table altered.
+SQL> set linesize 3000;
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE
+---------- -------------------- ---------- ------------------------------ ----------
+         1 Rupam                CSE        Kolkata                                22
+         2 SOUMO                CSE        Kolkata                                22
+         3 Krish                CSE        Kolkata                                22
+         4 Souvik               CSE        Kolkata                                22
+         5 Shreya               IT         Kolkata                                22
+
+
+
+
+SQL> update soumo set address = 'TINT';
+
+5 rows updated.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE
+---------- -------------------- ---------- ------------------------------ ----------
+         1 Rupam                CSE        TINT                                   22
+         2 SOUMO                CSE        TINT                                   22
+         3 Krish                CSE        TINT                                   22
+         4 Souvik               CSE        TINT                                   22
+         5 Shreya               IT         TINT                                   22
+
+
+
+SQL> update soumo set age = &age where roll=&roll;
+Enter value for age: 21
+Enter value for roll: 1
+old   1: update soumo set age = &age where roll=&roll
+new   1: update soumo set age = 21 where roll=1
+
+1 row updated.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE
+---------- -------------------- ---------- ------------------------------ ----------
+         1 Rupam                CSE        TINT                                   21
+         2 SOUMO                CSE        TINT                                   20
+         3 Krish                CSE        TINT                                   24
+         4 Souvik               CSE        TINT                                   22
+         5 Shreya               IT         TINT                                   20
+
+
+
+
+SQL> alter table soumo modify roll primary key;
+
+Table altered.
+
+
+
+
+7 (Skipped)
+
+
+
+
+8)
+SQL> alter table soumo add markes integer default 50;
+
+Table altered.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE     MARKES
+---------- -------------------- ---------- ------------------------------ ---------- ----------
+         1 Rupam                CSE        TINT                                   21         50
+         2 SOUMO                CSE        TINT                                   20         50
+         3 Krish                CSE        TINT                                   24         50
+         4 Souvik               CSE        TINT                                   22         50
+         5 Shreya               IT         TINT                                   20         50
+         6                      AIML       Kolkata                                21         50
+
+6 rows selected.
+
+
+9)
+SQL> select * from soumo where marks<=50;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE     MARKES
+---------- -------------------- ---------- ------------------------------ ---------- ----------
+         6                      AIML       Kolkata                                21         50
+1 rows selected.
+
+
+
+
+
+10)
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE      MARKS
+---------- -------------------- ---------- ------------------------------ ---------- ----------
+         1 Rupam                CSE        TINT                                   21         70
+         2 SOUMO                CSE        TINT                                   20         70
+         3 Krish                CSE        TINT                                   24         75
+         4 Souvik               CSE        TINT                                   22         72
+         5 Shreya               IT         TINT                                   20         89
+         6                      AIML       Kolkata                                21         49
+
+6 rows selected.
+
+SQL> delete from soumo where marks<=50;
+
+1 row deleted.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH     ADDRESS                               AGE      MARKS
+---------- -------------------- ---------- ------------------------------ ---------- ----------
+         1 Rupam                CSE        TINT                                   21         70
+         2 SOUMO                CSE        TINT                                   20         70
+         3 Krish                CSE        TINT                                   24         75
+         4 Souvik               CSE        TINT                                   22         72
+         5 Shreya               IT         TINT                                   20         89
+
+
+
+
+11)
+SQL> alter table soumo drop column address;
+
+Table altered.
+
+SQL> select * from soumo;
+
+      ROLL NAME                 BRANCH            AGE      MARKS
+---------- -------------------- ---------- ---------- ----------
+         1 Rupam                CSE                21         70
+         2 SOUMO                CSE                20         70
+         3 Krish                CSE                24         75
+         4 Souvik               CSE                22         72
+         5 Shreya               IT                 20         89
+
+
+
+12)
+
