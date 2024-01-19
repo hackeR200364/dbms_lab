@@ -1,0 +1,564 @@
+SQL> select table_name from user_tables;
+
+TABLE_NAME
+------------------------------
+DEPT
+EMP
+BONUS
+SALGRADE
+NDR
+NDR_TEST
+
+6 rows selected.
+
+TABLE CREATION: 
+
+SQL> create table ndr (id number, name varchar2(20));
+
+Table created.
+
+SQL> desc ndr;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER
+ NAME                                               VARCHAR2(20)
+
+INSERTION INTO THE TABLE
+
+SQL> insert into ndr values(1,'asha');
+
+1 row created.
+
+SQL> insert into ndr values(&id,'&name');
+Enter value for id: 1
+Enter value for name: Akash
+old   1: insert into ndr values(&id,'&name')
+new   1: insert into ndr values(1,'Akash')
+
+1 row created.
+
+SQL> /
+Enter value for id: 2
+Enter value for name: Sulekha
+old   1: insert into ndr values(&id,'&name')
+new   1: insert into ndr values(2,'Sulekha ')
+
+1 row created.
+
+SQL> select * from ndr;
+
+        ID NAME
+---------- --------------------
+         1 asha
+         1 Akash
+         2 Sulekha
+
+SQL> INSERT into ndr(id) values(4);
+
+1 row created.
+
+SQL> INSERT into ndr values(5);
+INSERT into ndr values(5)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> select * from ndr;
+
+        ID NAME
+---------- --------------------
+         1 asha
+         1 Akash
+         2 Sulekha
+         4
+
+ALTER TABLE
+
+ADD COLUMN IN TABLE
+
+SQL> alter table ndr add age number;
+
+Table altered.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE
+---------- -------------------- ----------
+         1 asha
+         1 Akash
+         2 Sulekha
+         4
+MODIFY COLUMN IN TABLE
+
+SQL> alter table ndr modify id not null;
+
+Table altered.
+
+SQL> desc ndr;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER
+
+SQL> alter table ndr modify name not null;
+alter table ndr modify name not null
+*
+ERROR at line 1:
+ORA-02296: cannot enable (SCOTT.) - null values found
+SQL> select * from ndr;
+
+        ID NAME                        AGE
+---------- -------------------- ----------
+         1 asha
+         1 Akash
+         2 Sulekha
+         4
+
+SQL> delete from ndr where name='Akash';
+
+1 row deleted.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE
+---------- -------------------- ----------
+         1 asha
+         2 Sulekha
+         4
+
+SQL> alter table ndr modify id primary key;
+
+Table altered.
+
+SQL> desc ndr;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER
+
+ADDING DEFAULT VALUES
+
+SQL> ALTER table ndr add address varchar2(20) default 'kolkata';
+
+Table altered.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 asha                            kolkata
+         2 Sulekha                         kolkata
+         4                                 kolkata
+
+SQL> update ndr set name='rishi' where id=4;
+
+1 row updated.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 asha                            kolkata
+         2 Sulekha                         kolkata
+         4 rishi                           kolkata
+
+SQL> update ndr set name='Rishi' where id=4;
+
+1 row updated.
+
+SQL> update ndr set name='Asha' where id=1;
+
+1 row updated.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 Asha                            kolkata
+         2 Sulekha                         kolkata
+         4 Rishi                           kolkata
+SQL> update ndr set age=20;
+
+3 rows updated.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 Asha                         20 kolkata
+         2 Sulekha                      20 kolkata
+         4 Rishi                        20 kolkata
+
+SQL> update ndr set age=21 where id=1;
+
+1 row updated.
+
+SQL> update ndr set address='saltlake' where name='Rishi';
+
+1 row updated.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 Asha                         21 kolkata
+         2 Sulekha                      20 kolkata
+         4 Rishi                        20 saltlake
+
+SQL> delete from ndr where id=2;
+
+1 row deleted.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE ADDRESS
+---------- -------------------- ---------- --------------------
+         1 Asha                         21 kolkata
+         4 Rishi                        20 saltlake
+
+DROP COLUMN IN TABLE
+
+SQL> alter table ndr drop column address;
+
+Table altered.
+
+SQL> select * from ndr;
+
+        ID NAME                        AGE
+---------- -------------------- ----------
+         1 Asha                         21
+         4 Rishi                        20
+
+RENAME COLUMN IN A TABLE
+
+SQL> alter table ndr rename column id to roll;
+
+Table altered.
+
+SQL> select * from ndr;
+
+      ROLL NAME                        AGE
+---------- -------------------- ----------
+         1 Asha                         21
+         4 Rishi                        20
+
+RENAME TABLE
+
+SQL> alter table ndr rename to student;
+
+Table altered.
+
+SQL> select * from ndr;
+select * from ndr
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from student;
+
+      ROLL NAME                        AGE
+---------- -------------------- ----------
+         1 Asha                         21
+         4 Rishi                        20
+
+UPDATING MULTIPLE TUPLES 
+
+SQL> select * from student;
+
+      ROLL NAME                        AGE
+---------- -------------------- ----------
+         1 Asha                         21
+         5 abc                          23
+         6 xyz                          22
+         4 Rishi                        20
+         7 abc                          22
+
+SQL> update student set name='Amit' where age>=22;
+
+3 rows updated.
+
+SQL> select * from student;
+
+      ROLL NAME                        AGE
+---------- -------------------- ----------
+         1 Asha                         21
+         5 Amit                         23
+         6 Amit                         22
+         4 Rishi                        20
+         7 Amit                         22
+
+ADDING MULTIPLE TABLES 
+
+SQL> alter table student add (address varchar2(20),marks number);
+
+Table altered.
+
+SQL> select * from student;
+
+      ROLL NAME                        AGE ADDRESS                   MARKS
+---------- -------------------- ---------- -------------------- ----------
+         1 Asha                         21
+         5 Amit                         23
+         6 Amit                         22
+         4 Rishi                        20
+         7 Amit                         22
+
+DROP TABLE
+
+SQL> DROP table student;
+
+Table dropped.
+
+
+
+
+
+COPY FROM EXISTING TABLE
+
+SQL> create table ndr_test as select empno,ename,job,sal from emp;
+
+Table created.
+
+SQL> select * from ndr_test;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7566 JONES      MANAGER         2975
+      7654 MARTIN     SALESMAN        1250
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7900 JAMES      CLERK            950
+      7902 FORD       ANALYST         3000
+      7934 MILLER     CLERK           1300
+
+14 rows selected.
+
+DISTINCT COLUMN SELECTION
+
+SQL> select distinct job from ndr_test;
+
+JOB
+---------
+CLERK
+SALESMAN
+PRESIDENT
+MANAGER
+ANALYST
+
+SQL> select distinct ename,empno from ndr_test;
+
+ENAME           EMPNO
+---------- ----------
+BLAKE            7698
+MILLER           7934
+KING             7839
+CLARK            7782
+TURNER           7844
+SMITH            7369
+SCOTT            7788
+JAMES            7900
+FORD             7902
+ALLEN            7499
+WARD             7521
+
+ENAME           EMPNO
+---------- ----------
+MARTIN           7654
+ADAMS            7876
+JONES            7566
+
+14 rows selected.
+
+SORT A COLUMN
+
+SQL> select * from ndr_test order by sal;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7900 JAMES      CLERK            950
+      7876 ADAMS      CLERK           1100
+      7521 WARD       SALESMAN        1250
+      7654 MARTIN     SALESMAN        1250
+      7934 MILLER     CLERK           1300
+      7844 TURNER     SALESMAN        1500
+      7499 ALLEN      SALESMAN        1600
+      7782 CLARK      MANAGER         2450
+      7698 BLAKE      MANAGER         2850
+      7566 JONES      MANAGER         2975
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7788 SCOTT      ANALYST         3000
+      7902 FORD       ANALYST         3000
+      7839 KING       PRESIDENT       5000
+
+14 rows selected.
+
+SQL> select * from ndr_test order by sal desc;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7839 KING       PRESIDENT       5000
+      7902 FORD       ANALYST         3000
+      7788 SCOTT      ANALYST         3000
+      7566 JONES      MANAGER         2975
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7499 ALLEN      SALESMAN        1600
+      7844 TURNER     SALESMAN        1500
+      7934 MILLER     CLERK           1300
+      7521 WARD       SALESMAN        1250
+      7654 MARTIN     SALESMAN        1250
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7876 ADAMS      CLERK           1100
+      7900 JAMES      CLERK            950
+      7369 SMITH      CLERK            800
+
+14 rows selected.
+
+SQL> select * from ndr_test order by sal,ename;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7900 JAMES      CLERK            950
+      7876 ADAMS      CLERK           1100
+      7654 MARTIN     SALESMAN        1250
+      7521 WARD       SALESMAN        1250
+      7934 MILLER     CLERK           1300
+      7844 TURNER     SALESMAN        1500
+      7499 ALLEN      SALESMAN        1600
+      7782 CLARK      MANAGER         2450
+      7698 BLAKE      MANAGER         2850
+      7566 JONES      MANAGER         2975
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7902 FORD       ANALYST         3000
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+
+14 rows selected.
+
+BETWEEN AND IN 
+
+SQL> select * from ndr_test where sal between 1000 and 2000;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7654 MARTIN     SALESMAN        1250
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+      7934 MILLER     CLERK           1300
+
+6 rows selected.
+
+Equivalent query:
+SQL> select * from ndr_test where sal>=1000 and sal<=2000;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7654 MARTIN     SALESMAN        1250
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+      7934 MILLER     CLERK           1300
+
+6 rows selected.
+
+SQL> select * from ndr_test where sal in( 1000,2000);
+
+no rows selected
+
+SQL> select * from ndr where sal in( 900,3000);
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7788 SCOTT      ANALYST         3000
+      7902 FORD       ANALYST         3000
+
+SQL> select * from ndr_test where sal in(1250,3000);
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7521 WARD       SALESMAN        1250
+      7654 MARTIN     SALESMAN        1250
+      7788 SCOTT      ANALYST         3000
+      7902 FORD       ANALYST         3000
+
+USE OF NOT 
+
+SQL> select * from ndr_test where sal not between 1000 and 3000;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7839 KING       PRESIDENT       5000
+      7900 JAMES      CLERK            950
+
+Equvalent query 
+
+SQL> select * from ndr_test where sal<1000 OR SAL>3000;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7839 KING       PRESIDENT       5000
+      7900 JAMES      CLERK            950
+
+COUNTING NUMBER OF RECORDS
+SQL> select count(*) from ndr;
+
+  COUNT(*)
+----------
+        14
+
+SQL> select count(sal) from ndr_test where sal between 2000 and 3000;
+
+COUNT(SAL)
+----------
+         5
+
+SIMPLE CALCULATIONS
+
+SQL> select SAL,sal+1000 from ndr_test where sal between 2000 and 3000;
+
+       SAL   SAL+1000
+---------- ----------
+      2975       3975
+      2850       3850
+      2450       3450
+      3000       4000
+      3000       4000
+
+SQL> select SAL,(sal+1000) inc from ndr_test where sal between 2000 and 3000;
+
+       SAL        INC
+---------- ----------
+      2975       3975
+      2850       3850
+      2450       3450
+      3000       4000
+      3000       4000
+
+ 
